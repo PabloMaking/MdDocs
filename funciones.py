@@ -23,14 +23,37 @@ def default_print(rows,mddoc,asset_type):
     #     print("")
 
 def compute_googleapis_com(resource_grouped,mddoc,asset_type):
+
+    mddoc.add_heading("Compute-GoogleApis")
+
+    rows = {}
+    header = {}
+    Types = []
     
-    #print(resource_grouped[1]['assetType'])
-    header = ["Type", "Name", "DisplayName", "Location", "State", "Ip"]
-    rows = [["Tipo", resource_grouped[1]['assetType'], "Disp", "Aqui", "On", "127.0.0.1"],["1","2","3","4","5","6"]]
-    mddoc.add_table(header, rows, align=None)
-    print(mddoc)
-    mddoc.dump("documents/" + "tabla")
-    '''for resource in resource_gruoped:
-        print(resource)'''
+    for resource in resource_grouped:
+        Type = str(resource['assetType']).split("/")[-1]
+        Types.append(Type)
+        print(Type)
+        rows.setdefault(Type, []) # Inicializa una lista vacía si no existe para ese tipo
+        match Type:
+            case "Address":
+                header[Type] = ["Type", "Name", "Location", "State", "Ip"]
+                ip = resource['additionalAttributes']['address']
+                row = [Type, resource['displayName'], resource['location'], resource['state'], ip]
+                rows[Type].append(row)
+            case "Disk":
+                header[Type] = ["Type", "Name", "SizeType", "State"]
+                bytes = resource['additionalAttributes']['sizeGb']
+                row = [Type, resource['displayName'], bytes ,resource['state']]
+                rows[Type].append(row)
 
 
+    Types = list(dict.fromkeys(Types))    
+    for asset in Types:
+        try:
+            mddoc.add_heading(asset, 2)
+            mddoc.add_table(header[asset], rows[asset], align=None)
+        except Exception as e:
+            print("Error:", e, "     Coming Soon...")
+
+    mddoc.dump("documents/" + "ReadAssets")

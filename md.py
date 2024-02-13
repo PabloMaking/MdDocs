@@ -17,7 +17,17 @@ for resource in dictResponse:
 unique_asset_types = sorted(list(dict.fromkeys(asset_types)))
     # Left only the main resource (remove from / to the $) and do it unique
 unique_asset_types_family = (list(dict.fromkeys([re.sub(r'/.*$', '', unique_asset_type) for unique_asset_type in unique_asset_types])))
-print((unique_asset_types_family))
+mddoc.add_heading("MarkDown para accountability de recursos")
+mddoc.add_heading("Assets types", 2)
+mddoc.add_paragraph("""In this document we can found a detail about the assets that conform this project. In it, we can see 
+a list of all them and a description of every asset type, a list of assets grouped by type and the details of
+them.""")
+mddoc.add_ordered_list(unique_asset_types_family)
+if not os.path.exists('documents'):
+    os.makedirs('documents')
+    ## Dump snakeMD document introduction
+mddoc.dump("documents/" + "ReadAssets")
+
 for asset_type in unique_asset_types_family:
         # print(f" fuera: {asset_type}")
     resource_grouped = []
@@ -33,13 +43,8 @@ for asset_type in unique_asset_types_family:
         default_print(resource_grouped,mddoc,asset_type)
         pass
 
-#mddoc.add_ordered_list(unique_asset_types_family)
-       ## Create documents directory
-if not os.path.exists('documents'):
-    os.makedirs('documents')
 
-    ## Dump snakeMD document
-mddoc.dump("documents/" + "local")
+       ## Create documents directory
 
 print("Exported MD documents")
 
