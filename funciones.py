@@ -24,13 +24,10 @@ def default_print(rows,mddoc,asset_type):
 
 def compute_googleapis_com(resource_grouped,mddoc,asset_type):
     
-    print(resource_grouped[1]['assetType'])
+    #print(resource_grouped[1]['assetType'])
     header = ["Type", "Name", "DisplayName", "Location", "State", "Ip"]
-    rows = [["Tipo", resource_gruoped[1]['assetType'], "Disp", "Aqui", "On", "127.0.0.1"],["1","2","3","4","5","6"]]
-    align = [snakemd.Table.Align.CENTER, snakemd.TABLE.Align.RIGHT]
-    mddoc = snakemd.new_doc()
-    mddoc.add_table(header, rows, align=align)
-    print("Hola")
+    rows = [["Tipo", resource_grouped[1]['assetType'], "Disp", "Aqui", "On", "127.0.0.1"],["1","2","3","4","5","6"]]
+    mddoc.add_table(header, rows, align=None)
     print(mddoc)
     mddoc.dump("documents/" + "tabla")
     '''for resource in resource_gruoped:
