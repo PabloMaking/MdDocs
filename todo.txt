@@ -1,4 +1,3 @@
-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
 
 Compute: name -> utilizar API (Obtener SO, disks, typemachine)
 Defaults: Elementos comunes (Display name y location)
