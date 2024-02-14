@@ -42,22 +42,25 @@ def compute_googleapis_com(resource_grouped,mddoc,asset_type):
             case "Address":
                 header[Type] = ["Name", "Location", "State", "Ip"]
                 ip = resource['additionalAttributes']['address']
-                row = [Type, resource['displayName'], resource['location'], resource['state'], ip]
+                row = [resource['displayName'], resource['location'], resource['state'], ip]
+                print(row)
                 rows[Type].append(row)
 
             case "Disk":
                 header[Type] = ["Name", "SizeType", "State"]
                 bytes = resource['additionalAttributes']['sizeGb']
-                row = [Type, resource['displayName'], bytes ,resource['state']]
+                row = [resource['displayName'], bytes ,resource['state']]
                 rows[Type].append(row)
 
             case "Instance":
-                header[Type] = ["Name", "id", "MachineType", "Location", "State", "NetworkTags", "NetworkTier", "NetworkType", "SubNetwork", "IP"]
-                #resource['additionalAttributes']['id']
+                header[Type] = ["Name", "id", "MachineType", "Location", "State", "Network"]
+                #resource['additionalAttributes']['id'] "NetworkTags", "NetworkTier", "NetworkType", "SubNetwork", "IP"
                 instance_info = compute_client.get(project="mapfre-dig-esp--dat--pro--8620", zone=resource['location'], instance=str(resource['displayName']))
-                row = [resource['displayName']]
-                print(instance_info)
+                row = [resource['displayName'], instance_info.id, instance_info.machine_type, resource['location'], instance_info.status, instance_info.network_interfaces]
+                #print(instance_info)
+                rows[Type].append(row)
 
+    Types = list(dict.fromkeys(Types))
     for asset in Types:
         try:
             mddoc.add_heading(asset, 2)

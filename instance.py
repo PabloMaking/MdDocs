@@ -12,9 +12,6 @@ compute_client = compute_v1.InstancesClient()
 instance_info = compute_client.get(project=project_id, zone=zone, instance=instance_name)
 
 # Display the instance information
-print(f"Instance ID: {instance_info.id}")
-print(f"Instance Name: {instance_info.name}")
-print(f"Machine Type: {instance_info.machine_type}")
-print(f"Status: {instance_info.status}")
 print(f"Network Interfaces: {instance_info.network_interfaces}")
+print(f"\n----------------\n: {instance_info.network_performance_config}")
 # Add more attributes as needed
