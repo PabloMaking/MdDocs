@@ -56,7 +56,8 @@ def compute_googleapis_com(resource_grouped,mddoc,asset_type):
                 header[Type] = ["Name", "id", "MachineType", "Location", "State", "Network"]
                 #resource['additionalAttributes']['id'] "NetworkTags", "NetworkTier", "NetworkType", "SubNetwork", "IP"
                 instance_info = compute_client.get(project="mapfre-dig-esp--dat--pro--8620", zone=resource['location'], instance=str(resource['displayName']))
-                row = [resource['displayName'], instance_info.id, instance_info.machine_type, resource['location'], instance_info.status, instance_info.network_interfaces]
+                machine_type = instance_info.machine_type.split("/")[-1]
+                row = [resource['displayName'], instance_info.id, machine_type, resource['location'], instance_info.status, "Coming Soon..."]
                 #print(instance_info)
                 rows[Type].append(row)
 
@@ -67,6 +68,4 @@ def compute_googleapis_com(resource_grouped,mddoc,asset_type):
             mddoc.add_table(header[asset], rows[asset], align=None)
         except Exception as e:
             print("Error:", e, "     Coming Soon...")
-    mddoc.dump("documents/" + "ReadAssets")
-
-
+    mddoc.dump("README")
