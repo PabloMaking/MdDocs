@@ -1,9 +1,5 @@
-BackenBucket: name, location
-Compute: name -> utilizar API (Obtener SO, disks, typemachine)
-Firewall: state, displayname, network-tag, location
-Instance: location, networktags, additionalAttributes, state, network tier , network type
-Network: displayname, location
- 
+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
 
-Defaults: Elementos comunes
-Skips: BackendBucket,Forwardin rule:
+Compute: name -> utilizar API (Obtener SO, disks, typemachine)
+Defaults: Elementos comunes (Display name y location)
+Skips: BackendBucket,Forwardin rule -> Default

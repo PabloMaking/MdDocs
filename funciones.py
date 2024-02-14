@@ -61,6 +61,24 @@ def compute_googleapis_com(resource_grouped,mddoc,asset_type):
                 #print(instance_info)
                 rows[Type].append(row)
 
+            case "Firewall":
+                header[Type] = ["Name", "Location", "State", "Tags", "CreationTime"]
+                try:
+                    tag=resource['networkTags']
+                except:
+                    tag="Null"
+                row = [resource['displayName'], resource['location'], resource['state'], tag, resource['createTime']]
+                rows[Type].append(row)
+
+            case "Route":
+                header[Type] = ["Name", "Location", "Info", "CreationTime"]
+                row = [resource['displayName'], resource['location'], resource['description'], resource['description']]
+
+            case _:
+                header[Type] = ["Name", "location"]
+                row = [resource['displayName'], resource['location']]
+                rows[Type].append(row)
+    
     Types = list(dict.fromkeys(Types))
     for asset in Types:
         try:

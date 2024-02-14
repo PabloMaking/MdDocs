@@ -42,7 +42,19 @@ In this document we can found a detail about the assets that conform this projec
 
 ## BackendBucket
 
+| Name                                       | location |
+| ------------------------------------------ | -------- |
+| mapfre-dig-esp--dat--pro--lb-default--250d | global   |
+| mapfre-dig-esp--dat--pro--mapper--7056     | global   |
+| mapfre-dig-esp--dat--pro--mapper-sql--a25f | global   |
+
 ## BackendService
+
+| Name                                              | location |
+| ------------------------------------------------- | -------- |
+| mapfre-dig-esp--dat--pro--nginx-proxy--lb--public | global   |
+| autos-price-ranking--call-endpoint--lb            | global   |
+| mapfre-dig-esp--dat--pro--nginx-proxy--lb--iap    | global   |
 
 ## Disk
 
@@ -59,9 +71,27 @@ In this document we can found a detail about the assets that conform this projec
 
 ## Firewall
 
+| Name                                               | Location | State   | Tags                                                | CreationTime         |
+| -------------------------------------------------- | -------- | ------- | --------------------------------------------------- | -------------------- |
+| pro--autos-price-ranking--22-allow                 | global   | ENABLED | ['ssh-without-public-ip']                           | 2022-07-11T11:03:57Z |
+| gke-mapfre-dig-esp--dat--pro--gke-0ad091e2-master  | global   | ENABLED | ['gke-mapfre-dig-esp--dat--pro--gke-0ad091e2-node'] | 2022-04-07T09:21:36Z |
+| mapfre-dig-esp--dat--pro--eveng-sourcing--fw       | global   | ENABLED | Null                                                | 2022-04-22T10:06:49Z |
+| gke-mapfre-dig-esp--dat--pro--gke-0ad091e2-all     | global   | ENABLED | ['gke-mapfre-dig-esp--dat--pro--gke-0ad091e2-node'] | 2022-04-07T09:21:36Z |
+| gke-mapfre-dig-esp--dat--pro--gke-0ad091e2-vms     | global   | ENABLED | ['gke-mapfre-dig-esp--dat--pro--gke-0ad091e2-node'] | 2022-04-07T09:21:37Z |
+| pro--autos-price-ranking--models-8080-allow-access | global   | ENABLED | ['models-8080-allow']                               | 2022-07-11T11:06:59Z |
+
 ## ForwardingRule
 
+| Name                            | location |
+| ------------------------------- | -------- |
+| mapfre-dig-esp--dat--pro--https | global   |
+| mapfre-dig-esp--dat--pro--http  | global   |
+
 ## HealthCheck
+
+| Name                                           | location |
+| ---------------------------------------------- | -------- |
+| mapfre-dig-esp--dat--pro--nginx-proxy--neg--hc | global   |
 
 ## Instance
 
@@ -72,28 +102,99 @@ In this document we can found a detail about the assets that conform this projec
 
 ## InstanceGroup
 
+| Name                                                     | location       |
+| -------------------------------------------------------- | -------------- |
+| dataflow-pro-mapfre-dig-trans--pub-08232315-ocbi-harness | europe-west1   |
+| gke-mapfre-dig-esp--dat--pr-np-pro-01-1f12a5cc-grp       | europe-west1-b |
+| gke-mapfre-dig-esp--dat--pr-np-pro-01-e962b67a-grp       | europe-west1-c |
+| gke-mapfre-dig-esp--dat--pr-np-pro-01-5626f4d9-grp       | europe-west1-d |
+
 ## InstanceGroupManager
+
+| Name                                                     | location       |
+| -------------------------------------------------------- | -------------- |
+| dataflow-pro-mapfre-dig-trans--pub-08232315-ocbi-harness | europe-west1   |
+| dataflow-pro-mapfre-dig-trans--pub-08170030-9675-harness | europe-west1   |
+| gke-mapfre-dig-esp--dat--pr-np-pro-01-1f12a5cc-grp       | europe-west1-b |
+| gke-mapfre-dig-esp--dat--pr-np-pro-01-e962b67a-grp       | europe-west1-c |
+| gke-mapfre-dig-esp--dat--pr-np-pro-01-5626f4d9-grp       | europe-west1-d |
 
 ## InstanceTemplate
 
+| Name                                                       | location     |
+| ---------------------------------------------------------- | ------------ |
+| gke-mapfre-dig-esp--dat--pr-np-pro-01-1f12a5cc             | global       |
+| gke-mapfre-dig-esp--dat--pr-np-pro-01-5626f4d9             | global       |
+| gke-mapfre-dig-esp--dat--pr-np-pro-01-e962b67a             | global       |
+| dataflow-pro-mapfre-dig-trans--pub-08232315-ocbi-harness   | europe-west1 |
+| dataflow-pro-mapfre-dig-trans--pub-08170030-9675-harness-1 | europe-west1 |
+
 ## Network
+
+| Name                     | location |
+| ------------------------ | -------- |
+| mapfre-dig-esp--dat--pro | global   |
 
 ## NetworkEndpointGroup
 
+| Name                                       | location       |
+| ------------------------------------------ | -------------- |
+| neg--autos-price-ranking--call-endpoint    | europe-west1   |
+| mapfre-dig-esp--dat--pro--nginx-proxy--neg | europe-west1-b |
+| mapfre-dig-esp--dat--pro--nginx-proxy--neg | europe-west1-c |
+| mapfre-dig-esp--dat--pro--nginx-proxy--neg | europe-west1-d |
+
 ## Project
+
+| Name                           | location |
+| ------------------------------ | -------- |
+| mapfre-dig-esp--dat--pro--8620 | global   |
 
 ## Route
 
+| Name | Location | Info | CreationTime |
+| ---- | -------- | ---- | ------------ |
+
 ## Router
+
+| Name                             | location     |
+| -------------------------------- | ------------ |
+| mapfre-dig-esp--dat--pro--router | europe-west1 |
 
 ## SecurityPolicy
 
+| Name       | location |
+| ---------- | -------- |
+| white-list | global   |
+
 ## SslCertificate
+
+| Name                                  | location |
+| ------------------------------------- | -------- |
+| mapfre-dig-esp--dat--pro-main--57af   | global   |
+| mapfre-dig-esp--dat--pro-models--9514 | global   |
 
 ## Subnetwork
 
+| Name                                             | location     |
+| ------------------------------------------------ | ------------ |
+| mapfre-dig-esp--dat--pro--europe-west1--internal | europe-west1 |
+
 ## TargetHttpProxy
+
+| Name                          | location |
+| ----------------------------- | -------- |
+| mapfre-dig-esp--dat--pro-http | global   |
 
 ## TargetHttpsProxy
 
+| Name                           | location |
+| ------------------------------ | -------- |
+| mapfre-dig-esp--dat--pro-https | global   |
+
 ## UrlMap
+
+| Name                            | location |
+| ------------------------------- | -------- |
+| mapfre-dig-esp--dat--pro--http  | global   |
+| mapfre-dig-esp--dat--pro--https | global   |
