@@ -1,4 +1,5 @@
-import snakemd
+from google.cloud import compute_v1
+
 def default_print(rows,mddoc,asset_type):
    ''' with open("default.txt", "a") as f:
         print("default " + asset_type, file=f)
@@ -26,6 +27,7 @@ def compute_googleapis_com(resource_grouped,mddoc,asset_type):
 
     mddoc.add_heading("Compute-GoogleApis")
 
+    compute_client = compute_v1.InstancesClient()
     rows = {}
     header = {}
     Types = []
@@ -35,25 +37,33 @@ def compute_googleapis_com(resource_grouped,mddoc,asset_type):
         Types.append(Type)
         print(Type)
         rows.setdefault(Type, []) # Inicializa una lista vacía si no existe para ese tipo
+        
         match Type:
             case "Address":
-                header[Type] = ["Type", "Name", "Location", "State", "Ip"]
+                header[Type] = ["Name", "Location", "State", "Ip"]
                 ip = resource['additionalAttributes']['address']
                 row = [Type, resource['displayName'], resource['location'], resource['state'], ip]
                 rows[Type].append(row)
+
             case "Disk":
-                header[Type] = ["Type", "Name", "SizeType", "State"]
+                header[Type] = ["Name", "SizeType", "State"]
                 bytes = resource['additionalAttributes']['sizeGb']
                 row = [Type, resource['displayName'], bytes ,resource['state']]
                 rows[Type].append(row)
 
+            case "Instance":
+                header[Type] = ["Name", "id", "MachineType", "Location", "State", "NetworkTags", "NetworkTier", "NetworkType", "SubNetwork", "IP"]
+                #resource['additionalAttributes']['id']
+                instance_info = compute_client.get(project="mapfre-dig-esp--dat--pro--8620", zone=resource['location'], instance=str(resource['displayName']))
+                row = [resource['displayName']]
+                print(instance_info)
 
-    Types = list(dict.fromkeys(Types))    
     for asset in Types:
         try:
             mddoc.add_heading(asset, 2)
             mddoc.add_table(header[asset], rows[asset], align=None)
         except Exception as e:
             print("Error:", e, "     Coming Soon...")
-
     mddoc.dump("documents/" + "ReadAssets")
+
+

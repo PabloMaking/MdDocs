@@ -40,7 +40,31 @@ In this document we can found a detail about the assets that conform this projec
 | Address | mapfre-dig-esp--dat--pro--private   | global       | RESERVED | 10.40.0.0     |
 | Address | mapfre-dig-esp--dat--pro--nat-ip--1 | europe-west1 | IN_USE   | 34.76.116.231 |
 
+## Address
+
+| Type    | Name                                | Location     | State    | Ip            |
+| ------- | ----------------------------------- | ------------ | -------- | ------------- |
+| Address | mapfre-dig-esp--dat--pro            | global       | IN_USE   | 34.110.141.46 |
+| Address | mapfre-dig-esp--dat--pro--private   | global       | RESERVED | 10.40.0.0     |
+| Address | mapfre-dig-esp--dat--pro--nat-ip--1 | europe-west1 | IN_USE   | 34.76.116.231 |
+
+## Address
+
+| Type    | Name                                | Location     | State    | Ip            |
+| ------- | ----------------------------------- | ------------ | -------- | ------------- |
+| Address | mapfre-dig-esp--dat--pro            | global       | IN_USE   | 34.110.141.46 |
+| Address | mapfre-dig-esp--dat--pro--private   | global       | RESERVED | 10.40.0.0     |
+| Address | mapfre-dig-esp--dat--pro--nat-ip--1 | europe-west1 | IN_USE   | 34.76.116.231 |
+
 ## BackendBucket
+
+## BackendBucket
+
+## BackendBucket
+
+## BackendService
+
+## BackendService
 
 ## BackendService
 
@@ -57,7 +81,110 @@ In this document we can found a detail about the assets that conform this projec
 | Disk | pro-mapfre-dig-trans--pub-08170030-9675-harness-lxqz | 30.0     | READY |
 | Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-5626f4d9-tlzp  | 50.0     | READY |
 
+## Disk
+
+| Type | Name                                                 | SizeType | State |
+| ---- | ---------------------------------------------------- | -------- | ----- |
+| Disk | mapfre-dig-esp--dat--pro--autos-price-ranking--vm    | 25.0     | READY |
+| Disk | model-venus-data                                     | 100.0    | READY |
+| Disk | model-venus-boot                                     | 100.0    | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-1f12a5cc-w4q6  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08232315-ocbi-harness-4spg | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-e962b67a-st5z  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08170030-9675-harness-lxqz | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-5626f4d9-tlzp  | 50.0     | READY |
+
+## Disk
+
+| Type | Name                                                 | SizeType | State |
+| ---- | ---------------------------------------------------- | -------- | ----- |
+| Disk | mapfre-dig-esp--dat--pro--autos-price-ranking--vm    | 25.0     | READY |
+| Disk | model-venus-data                                     | 100.0    | READY |
+| Disk | model-venus-boot                                     | 100.0    | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-1f12a5cc-w4q6  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08232315-ocbi-harness-4spg | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-e962b67a-st5z  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08170030-9675-harness-lxqz | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-5626f4d9-tlzp  | 50.0     | READY |
+
+## Disk
+
+| Type | Name                                                 | SizeType | State |
+| ---- | ---------------------------------------------------- | -------- | ----- |
+| Disk | mapfre-dig-esp--dat--pro--autos-price-ranking--vm    | 25.0     | READY |
+| Disk | model-venus-data                                     | 100.0    | READY |
+| Disk | model-venus-boot                                     | 100.0    | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-1f12a5cc-w4q6  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08232315-ocbi-harness-4spg | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-e962b67a-st5z  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08170030-9675-harness-lxqz | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-5626f4d9-tlzp  | 50.0     | READY |
+
+## Disk
+
+| Type | Name                                                 | SizeType | State |
+| ---- | ---------------------------------------------------- | -------- | ----- |
+| Disk | mapfre-dig-esp--dat--pro--autos-price-ranking--vm    | 25.0     | READY |
+| Disk | model-venus-data                                     | 100.0    | READY |
+| Disk | model-venus-boot                                     | 100.0    | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-1f12a5cc-w4q6  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08232315-ocbi-harness-4spg | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-e962b67a-st5z  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08170030-9675-harness-lxqz | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-5626f4d9-tlzp  | 50.0     | READY |
+
+## Disk
+
+| Type | Name                                                 | SizeType | State |
+| ---- | ---------------------------------------------------- | -------- | ----- |
+| Disk | mapfre-dig-esp--dat--pro--autos-price-ranking--vm    | 25.0     | READY |
+| Disk | model-venus-data                                     | 100.0    | READY |
+| Disk | model-venus-boot                                     | 100.0    | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-1f12a5cc-w4q6  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08232315-ocbi-harness-4spg | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-e962b67a-st5z  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08170030-9675-harness-lxqz | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-5626f4d9-tlzp  | 50.0     | READY |
+
+## Disk
+
+| Type | Name                                                 | SizeType | State |
+| ---- | ---------------------------------------------------- | -------- | ----- |
+| Disk | mapfre-dig-esp--dat--pro--autos-price-ranking--vm    | 25.0     | READY |
+| Disk | model-venus-data                                     | 100.0    | READY |
+| Disk | model-venus-boot                                     | 100.0    | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-1f12a5cc-w4q6  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08232315-ocbi-harness-4spg | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-e962b67a-st5z  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08170030-9675-harness-lxqz | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-5626f4d9-tlzp  | 50.0     | READY |
+
+## Disk
+
+| Type | Name                                                 | SizeType | State |
+| ---- | ---------------------------------------------------- | -------- | ----- |
+| Disk | mapfre-dig-esp--dat--pro--autos-price-ranking--vm    | 25.0     | READY |
+| Disk | model-venus-data                                     | 100.0    | READY |
+| Disk | model-venus-boot                                     | 100.0    | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-1f12a5cc-w4q6  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08232315-ocbi-harness-4spg | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-e962b67a-st5z  | 50.0     | READY |
+| Disk | pro-mapfre-dig-trans--pub-08170030-9675-harness-lxqz | 30.0     | READY |
+| Disk | gke-mapfre-dig-esp--dat--pr-np-pro-01-5626f4d9-tlzp  | 50.0     | READY |
+
 ## Firewall
+
+## Firewall
+
+## Firewall
+
+## Firewall
+
+## Firewall
+
+## Firewall
+
+## ForwardingRule
 
 ## ForwardingRule
 
@@ -65,9 +192,39 @@ In this document we can found a detail about the assets that conform this projec
 
 ## Instance
 
+| Type | Name | id | MachineType | Location | State | NetworkTags | NetworkTier | NetworkType | SubNetwork |
+| ---- | ---- | -- | ----------- | -------- | ----- | ----------- | ----------- | ----------- | ---------- |
+
+## Instance
+
+| Type | Name | id | MachineType | Location | State | NetworkTags | NetworkTier | NetworkType | SubNetwork |
+| ---- | ---- | -- | ----------- | -------- | ----- | ----------- | ----------- | ----------- | ---------- |
+
+## InstanceGroup
+
+## InstanceGroup
+
+## InstanceGroup
+
 ## InstanceGroup
 
 ## InstanceGroupManager
+
+## InstanceGroupManager
+
+## InstanceGroupManager
+
+## InstanceGroupManager
+
+## InstanceGroupManager
+
+## InstanceTemplate
+
+## InstanceTemplate
+
+## InstanceTemplate
+
+## InstanceTemplate
 
 ## InstanceTemplate
 
@@ -75,7 +232,27 @@ In this document we can found a detail about the assets that conform this projec
 
 ## NetworkEndpointGroup
 
+## NetworkEndpointGroup
+
+## NetworkEndpointGroup
+
+## NetworkEndpointGroup
+
 ## Project
+
+## Route
+
+## Route
+
+## Route
+
+## Route
+
+## Route
+
+## Route
+
+## Route
 
 ## Route
 
@@ -85,10 +262,14 @@ In this document we can found a detail about the assets that conform this projec
 
 ## SslCertificate
 
+## SslCertificate
+
 ## Subnetwork
 
 ## TargetHttpProxy
 
 ## TargetHttpsProxy
+
+## UrlMap
 
 ## UrlMap

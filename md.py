@@ -4,6 +4,7 @@ import re
 import os
 from funciones import *
 
+
 asset_types = []
 mddoc = snakemd.new_doc()
 f = open('mapfre-dig-pro.json')
@@ -12,6 +13,8 @@ f.close()
 
 for resource in dictResponse:
     asset_types.append(resource['assetType'])
+with open("documents/archivo_salida.txt", "a") as f:
+    print(str(asset_types), file=f)
 #print(asset_types) Aqui está el número total de recursos
 
 unique_asset_types = sorted(list(dict.fromkeys(asset_types)))
@@ -42,9 +45,6 @@ for asset_type in unique_asset_types_family:
     except:
         default_print(resource_grouped,mddoc,asset_type)
         pass
-
-
        ## Create documents directory
-
 print("Exported MD documents")
 

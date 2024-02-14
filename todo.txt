@@ -1,7 +1,9 @@
-Address: state, ip, name, display-name, location
 BackenBucket: name, location
-Disk: name, location, size-type, state
 Compute: name -> utilizar API (Obtener SO, disks, typemachine)
+Firewall: state, displayname, network-tag, location
+Instance: location, networktags, additionalAttributes, state, network tier , network type
+Network: displayname, location
+ 
 
 Defaults: Elementos comunes
-Skips: BackendBucket
+Skips: BackendBucket,Forwardin rule:

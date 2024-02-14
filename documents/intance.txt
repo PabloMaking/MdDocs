@@ -1,0 +1,260 @@
+{'name': '//compute.googleapis.com/projects/mapfre-dig-esp--dat--pro--8620/zones/europe-west1-b/instances/mapfre-dig-esp--dat--pro--autos-price-ranking--vm', 
+'assetType': 'compute.googleapis.com/Instance', 'project': 'projects/147054572341', 'displayName': 'mapfre-dig-esp--dat--pro--autos-price-ranking--vm', 
+'location': 'europe-west1-b', 'networkTags': ['models-8080-allow', 'ssh-without-public-ip'], 
+'additionalAttributes': 
+{'networkInterfaceNames': ['nic0'], 'machineType': 'e2-standard-2', 'id': '6458578003896460107', 'networkInterfaceStackTypes': ['IPV4_ONLY'], 
+'deletionProtection': 'FALSE', 'internalIPs': ['10.31.0.26'], 
+'networkInterfaceNetworks': ['https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/global/networks/mapfre-dig-esp--dat--pro']}, 
+'createTime': '2022-07-11T08:21:57Z', 'state': 'RUNNING', 'organization': 'organizations/62664342784', '
+parentFullResourceName': '//cloudresourcemanager.googleapis.com/projects/mapfre-dig-esp--dat--pro--8620', 
+'parentAssetType': 'cloudresourcemanager.googleapis.com/Project'}
+
+
+model-venus
+cpu_platform: "Unknown CPU Platform"
+creation_timestamp: "2023-06-06T07:08:08.022-07:00"
+deletion_protection: false
+disks {
+  auto_delete: true
+  boot: true
+  device_name: "boot"
+  disk_size_gb: 100
+  guest_os_features {
+    type_: "VIRTIO_SCSI_MULTIQUEUE"
+  }
+  guest_os_features {
+    type_: "UEFI_COMPATIBLE"
+  }
+  guest_os_features {
+    type_: "GVNIC"
+  }
+  index: 0
+  interface: "SCSI"
+  kind: "compute#attachedDisk"
+  licenses: "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-tensorflow"
+  licenses: "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-gvnic"
+  licenses: "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-cpu-common"
+  licenses: "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-ubuntu-2004"
+  licenses: "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-notebooks"
+  mode: "READ_WRITE"
+  source: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/zones/europe-west1-b/disks/model-venus-boot"
+  type_: "PERSISTENT"
+}
+disks {
+  auto_delete: true
+  boot: false
+  device_name: "data"
+  disk_size_gb: 100
+  index: 1
+  interface: "SCSI"
+  kind: "compute#attachedDisk"
+  mode: "READ_WRITE"
+  source: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/zones/europe-west1-b/disks/model-venus-data"
+  type_: "PERSISTENT"
+}
+fingerprint: "fmjRyvOfHtA="
+id: 5806558271339922216
+kind: "compute#instance"
+label_fingerprint: "sSus3085VUY="
+labels {
+  key: "goog-caip-notebook"
+  value: ""
+}
+last_start_timestamp: "2024-01-24T08:13:02.182-08:00"
+last_stop_timestamp: "2024-01-24T08:14:35.889-08:00"
+machine_type: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/zones/europe-west1-b/machineTypes/n1-standard-16"
+metadata {
+  fingerprint: "Ki7y6M4TOJw="
+  items {
+    key: "enable-guest-attributes"
+    value: "TRUE"
+  }
+  items {
+    key: "serial-port-logging-enable"
+    value: "true"
+  }
+  items {
+    key: "proxy-mode"
+    value: "service_account"
+  }
+  items {
+    key: "framework"
+    value: "NumPy/SciPy/scikit-learn"
+  }
+  items {
+    key: "shutdown-script"
+    value: "/opt/deeplearning/bin/shutdown_script.sh"
+  }
+  items {
+    key: "notebooks-api"
+    value: "PROD"
+  }
+  items {
+    key: "disable-swap-binaries"
+    value: "true"
+  }
+  items {
+    key: "warmup-libraries"
+    value: "matplotlib.pyplot"
+  }
+  items {
+    key: "notebooks-api-version"
+    value: "v1"
+  }
+  items {
+    key: "disable-mixer"
+    value: "true"
+  }
+  items {
+    key: "report-system-health"
+    value: "true"
+  }
+  items {
+    key: "proxy-url"
+    value: "476835f9100ffbc1-dot-europe-west1.notebooks.googleusercontent.com"
+  }
+  items {
+    key: "title"
+    value: "Base.CPU"
+  }
+  items {
+    key: "version"
+    value: "108"
+  }
+  items {
+    key: "restriction"
+    value: ""
+  }
+  kind: "compute#metadata"
+}
+name: "model-venus"
+network_interfaces {
+  access_configs {
+    kind: "compute#accessConfig"
+    name: "external-nat"
+    network_tier: "PREMIUM"
+    type_: "ONE_TO_ONE_NAT"
+  }
+  fingerprint: "gidcOUUfBi4="
+  kind: "compute#networkInterface"
+  name: "nic0"
+  network: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/global/networks/mapfre-dig-esp--dat--pro"
+  network_i_p: "10.31.0.35"
+  stack_type: "IPV4_ONLY"
+  subnetwork: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/regions/europe-west1/subnetworks/mapfre-dig-esp--dat--pro--europe-west1--internal"
+}
+scheduling {
+  automatic_restart: true
+  on_host_maintenance: "MIGRATE"
+  preemptible: false
+  provisioning_model: "STANDARD"
+}
+self_link: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/zones/europe-west1-b/instances/model-venus"
+service_accounts {
+  email: "147054572341-compute@developer.gserviceaccount.com"
+  scopes: "https://www.googleapis.com/auth/cloud-platform"
+  scopes: "https://www.googleapis.com/auth/userinfo.email"
+}
+shielded_instance_config {
+  enable_integrity_monitoring: true
+  enable_secure_boot: false
+  enable_vtpm: true
+}
+shielded_instance_integrity_policy {
+  update_auto_learn_policy: true
+}
+start_restricted: false
+status: "TERMINATED"
+tags {
+  fingerprint: "OOp0AY3QO9M="
+  items: "deeplearning-vm"
+  items: "notebook-instance"
+}
+zone: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/zones/europe-west1-b"
+
+Instance
+mapfre-dig-esp--dat--pro--autos-price-ranking--vm
+can_ip_forward: false
+cpu_platform: "Intel Broadwell"
+creation_timestamp: "2022-07-11T01:21:57.755-07:00"
+deletion_protection: false
+disks {
+  architecture: "X86_64"
+  auto_delete: true
+  boot: true
+  device_name: "persistent-disk-0"
+  disk_size_gb: 25
+  guest_os_features {
+    type_: "UEFI_COMPATIBLE"
+  }
+  guest_os_features {
+    type_: "VIRTIO_SCSI_MULTIQUEUE"
+  }
+  guest_os_features {
+    type_: "GVNIC"
+  }
+  index: 0
+  interface: "SCSI"
+  kind: "compute#attachedDisk"
+  licenses: "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-11-bullseye"
+  mode: "READ_WRITE"
+  source: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/zones/europe-west1-b/disks/mapfre-dig-esp--dat--pro--autos-price-ranking--vm"
+  type_: "PERSISTENT"
+}
+fingerprint: "kYNibe_23wQ="
+id: 6458578003896460107
+kind: "compute#instance"
+label_fingerprint: "42WmSpB8rSM="
+last_start_timestamp: "2024-02-06T08:19:39.401-08:00"
+last_stop_timestamp: "2024-02-05T03:58:23.647-08:00"
+machine_type: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/zones/europe-west1-b/machineTypes/e2-standard-2"
+metadata {
+  fingerprint: "MR0aHQUPUv8="
+  items {
+    key: "serial-port-enable"
+    value: "FALSE"
+  }
+  items {
+    key: "ssh-keys"
+    value: "samuel_morillo:ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK1ESBXT3xa7jCciXXcP9QTxtAfwshjRPjUm8b1OYOUhLajQm90/ynPyzjBr2LSQNA4YZHnl0eltEvKjxgW/JIk= google-ssh {\"userName\":\"samuel.morillo@makingscience.com\",\"expireOn\":\"2023-11-21T09:15:34+0000\"}\nsamuel_morillo:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAH+GiU8sAOCVE5Zzmi2cM8BST2s/ulS2Z1MFdwGQpL9R7uqC1Ev8zInXa/oBDkkSKW+0NAeugJuzy5xHPKHtVAl0Q3mmXpAOiQjLKsvMpTok1cYZOe0a572jbd09alDGge/rQDIjvD9skegEbIYgbZVb/vV4TMvGwtg0aQf3kr9lTWxcEkk8tqnWXOGzOHAwUvdxc3QOp2rryZ9i3Gxv9EIeQFt7w9EkAPjlvmlE69MROsVaE2ba4v9voN5LIZhKh/fUpDRzdi8QwB69JfPxyvnJ6cmQGBO1FuKnFku8TFxg/cJx3l+QPhGm+iz0MET4L75u2cX4cDP92jsEsIvXJ30= google-ssh {\"userName\":\"samuel.morillo@makingscience.com\",\"expireOn\":\"2023-11-21T09:15:48+0000\"}"
+  }
+  kind: "compute#metadata"
+}
+name: "mapfre-dig-esp--dat--pro--autos-price-ranking--vm"
+network_interfaces {
+  fingerprint: "TLYs_IzbiZY="
+  kind: "compute#networkInterface"
+  name: "nic0"
+  network: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/global/networks/mapfre-dig-esp--dat--pro"
+  network_i_p: "10.31.0.26"
+  stack_type: "IPV4_ONLY"
+  subnetwork: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/regions/europe-west1/subnetworks/mapfre-dig-esp--dat--pro--europe-west1--internal"
+}
+scheduling {
+  automatic_restart: true
+  on_host_maintenance: "MIGRATE"
+  preemptible: false
+  provisioning_model: "STANDARD"
+}
+self_link: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/zones/europe-west1-b/instances/mapfre-dig-esp--dat--pro--autos-price-ranking--vm"
+service_accounts {
+  email: "autos-price-ranking--sa@mapfre-dig-esp--dat--pro--8620.iam.gserviceaccount.com"
+  scopes: "https://www.googleapis.com/auth/cloud-platform"
+}
+shielded_instance_config {
+  enable_integrity_monitoring: true
+  enable_secure_boot: false
+  enable_vtpm: true
+}
+shielded_instance_integrity_policy {
+  update_auto_learn_policy: true
+}
+start_restricted: false
+status: "RUNNING"
+tags {
+  fingerprint: "jC-w-7i_BFs="
+  items: "models-8080-allow"
+  items: "ssh-without-public-ip"
+}
+zone: "https://www.googleapis.com/compute/v1/projects/mapfre-dig-esp--dat--pro--8620/zones/europe-west1-b"
+
