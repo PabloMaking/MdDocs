@@ -1,0 +1,195 @@
+import snakemd
+import json
+import re
+import os
+
+
+
+def dataflow_googleapis_com(resource_grouped,mddoc,asset_type):
+    mddoc.add_heading("DataFlow-GoogleApis")
+    rows = {}
+    header = {}
+    Types = []
+
+    for resource in resource_grouped:
+        Type = str(resource['assetType']).split("/")[-1]
+        Types.append(Type)
+        row = []
+        if Type not in header:
+            header[Type] = [] 
+            rows[Type] = []
+            header[Type] = ["Name", "Estado", "Location"]
+        row = [resource['displayName'], resource['state'].split('_')[-1], resource['location']]
+        if(resource['state']!='JOB_STATE_DRAINED'):
+            rows[Type].append(row)
+    Types = list(dict.fromkeys(Types))
+    mddoc.add_heading(str(Types[0]), 2)
+    try:
+        mddoc.add_table(header[str(Types[0])], rows[str(Types[0])], align=None)
+    except Exception as e:
+        print(e)
+
+def mdoc_add(mddoc, rows, header, Types=None):
+    Types = list(dict.fromkeys(Types))
+    if(len(Types)!=1):
+        for i in Types:
+            try:
+                mddoc.add_heading(i, 2)
+                mddoc.add_table(header[i], rows[i], align=None)
+            except Exception as e:
+                if(i=="Dataset"):
+                        header[i].insert(4, "Description")
+                        header[i].insert(6, "Creator")
+                        for line in rows[i]:
+                            while len(line) < 12:
+                                if(len(line)==10):
+                                    line.insert(4, None)
+                                    line.insert(6, None)
+                                else:
+                                    line.insert(6, None)
+    else:
+        mddoc.add_heading(str(Types[0]), 2)
+        try:
+            mddoc.add_table(header[str(Types[0])], rows[str(Types[0])], align=None)
+        except Exception as e:
+            print(e)
+
+def all_resources(resource_grouped, mddoc):
+    rows = {}
+    header = {}
+    Types = []
+
+    for resource in resource_grouped:
+        Type = str(resource['assetType']).split("/")[-1]
+        Types.append(Type)
+        row = []
+        if Type not in header:
+            header[Type] = [] 
+            rows[Type] = []
+            for item in resource:
+                #print(item)
+                #print(resource.keys())
+                header[Type].append(item)
+        for item in resource:
+            row.append(resource[item])
+        rows[Type].append(row)
+    Types = list(dict.fromkeys(Types))
+    for i in Types:
+        try:
+            mddoc.add_heading(i, 2)
+            mddoc.add_table(header[i], rows[i], align=None)
+        except Exception as e:
+            if(i=="Dataset"):
+                    header[i].insert(4, "Description")
+                    header[i].insert(6, "Creator")
+                    for line in rows[i]:
+                        while len(line) < 12:
+                            if(len(line)==10):
+                                line.insert(4, None)
+                                line.insert(6, None)
+                            else:
+                                line.insert(6, None)
+            
+            if(i=="Function"):
+                header[i].insert(6, "labels")
+                for line in rows[i]:
+                    while len(line) < 12:
+                                line.insert(6, None)
+
+            if(i=="CloudFunction"): #Posible fallo
+                for line in rows[i]:
+                    while len(line) < 13:
+                        if(len(line)==11):
+                            line.insert(6, None)
+                            line.insert(7, None)
+                        else:
+                            try:
+                                desc = line['description']
+                                line.insert(6, None)
+                            except:
+                                line.insert(4,None)
+
+            if(i=="LogSink"):
+                header[i].insert(4, "Description")
+                header[i].insert(6, "CreateTime")
+                header[i].insert(7, "Updatetime")
+                for line in rows[i]:
+                    while len(line) < 11:
+                        line.insert(4,None)
+                        line.insert(7,None)
+                        line.insert(6,None)
+            
+            if(i=="AlertPolicy"):
+                header[i].insert(4, "Description")
+                for line in rows[i]:
+                    while len(line) < 11:
+                        line.insert(4,None)  #se genera columna de más por nombre              
+
+            if(i=="Secret"):
+                for line in rows[i]:
+                    while len(line) < 10:
+                        line.insert(5,None)
+
+            if i=="ClusterRole" or i=="ClusterRoleBinding" or i=="Role" or i=="RoleBinding" or i=="Service":
+                for line in rows[i]:
+                    while len(line) < 10:
+                        line.insert(5,None)
+
+            
+
+            try:
+                mddoc.add_table(header[i], rows[i], align=None)
+            except:
+                print("Error:", e, "     Coming Soon...")
+
+def apikeys_googleapis_com(resource_grouped,mddoc,asset_type):
+    
+    mddoc.add_heading("ApiKeys-GoogleApis")
+    rows = {}
+    header = {}
+    #Types = []
+    
+    for resource in resource_grouped:
+        Type = str(resource['assetType']).split("/")[-1]
+        #Types.append(Type)
+        rows.setdefault(Type, []) # Inicializa una lista vacía si no existe para ese tipo
+        header[Type] = ["Name", "CreationTime", "UpdateTime"]
+        row = [resource['displayName'],  resource['createTime'], resource['updateTime']]
+        rows[Type].append(row)
+    mddoc.add_heading(Type, 2)
+    mddoc.add_table(header[Type], rows[Type], align=None)
+    
+    Types = list(dict.fromkeys(Types))
+    for asset in Types:
+        try:
+            mddoc.add_heading(asset, 2)
+            mddoc.add_table(header[asset], rows[asset], align=None)
+        except Exception as e:
+            print("Error:", e, "     Coming Soon...")
+
+asset_types = []
+mddoc = snakemd.new_doc()
+f = open('/home/makingscience/Escritorio/notas/pruebas/test/mapfre-dig-pro.json')
+dictResponse = json.load(f)
+f.close()
+
+for resource in dictResponse:
+    asset_types.append(resource['assetType'])
+#print(asset_types) Aqui está el número total de recursos
+
+unique_asset_types = sorted(list(dict.fromkeys(asset_types)))
+    # Left only the main resource (remove from / to the $) and do it unique
+unique_asset_types_family = (list(dict.fromkeys([re.sub(r'/.*$', '', unique_asset_type) for unique_asset_type in unique_asset_types])))
+
+for asset_type in unique_asset_types_family:
+    resource_grouped = []
+    for resource in dictResponse:
+        if asset_type in resource['assetType']:
+            asset_type_replace = asset_type.replace(".","_")
+            resource_grouped.append(resource)
+    try:
+        exec(f"{asset_type_replace}(resource_grouped,mddoc,asset_type)")
+    except:
+        pass
+mddoc.dump("ALL")
+print("Exported MD documents")
