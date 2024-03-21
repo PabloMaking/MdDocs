@@ -1,8 +1,32 @@
-from google.cloud import compute_v1
+from google.cloud import compute_v1   # pip install --upgrade google-cloud-compute
+from google.cloud import functions_v1 # pip install google-cloud-functions
 import re
 
 def default_print(resource_grouped,mddoc,asset_type):
-    mddoc.add_heading(asset_type)
+
+    headers = {
+        #"artifactregistry.googleapis.com": "ArtifactRegistry-GoogleApis",[]
+        "apikeys.googleapis.com": "ApiKeys-GoogleApis",
+        "bigquery.googleapis.com": "Bigquery-GoogleApis",
+        "cloudresourcemanager.googleapis.com": "CloudResourceManager-GoogleApis",
+        #"containerregistry.googleapis.com": "ContainerRegistry-GoogleApis",
+        #"pubsub.googleapis.com": "PubSub-GoogleApis",
+        "cloudresourcemanager.googleapis.com": "CloudResourceManager-GoogleApis",
+        "cloudtasks.googleapis.com": "CloudTasks-GoogleApis",
+        #"cloudfunctions.googleapis.com": "CloudFunctions-GoogleApis",
+        "cloudbilling.googleapis.com": "CloudBilling-GoogleApis",
+        "serviceusage.googleapis.com": "ServiceUsage-GoogleApis",
+        "storage.googleapis.com": "Storage-GoogleApis",
+        "vpcaccess.googleapis.com": "VPC-Access-GoogleApis",
+    }
+    try:
+        heading = headers[asset_type]
+    except:
+        heading = asset_type
+        
+    mddoc.add_heading(heading)
+
+    
     rows = {}
     header = {}
     Types = []
@@ -44,17 +68,36 @@ def apps_k8s_io(resource_grouped,mddoc,asset_type):
         rows.setdefault(Type, []) # Inicializa una lista vacía si no existe para ese tipo
         if(Type=='ReplicaSet'):
             header[Type] = ["Name", "Location", "Labels","NameSpaces"]
-            row = [resource['displayName'],  resource['location'], resource['labels'], resource['parentFullResourceName'].split("/")[-1]]
+            if(resource['parentFullResourceName'].split("/")[-1] != "kube-system"):
+                row = [resource['displayName'],  resource['location'], resource['labels'], resource['parentFullResourceName'].split("/")[-1]]
+                rows[Type].append(row)
         else:
             header[Type] = ["Name", "Location","NameSpaces"]
-            row = [resource['displayName'],  resource['location'], resource['parentFullResourceName'].split("/")[-1]]
+            if(resource['parentFullResourceName'].split("/")[-1] != "kube-system"):
+                row = [resource['displayName'],  resource['location'], resource['parentFullResourceName'].split("/")[-1]]
+                rows[Type].append(row)
         #print(resource['additionalAttributes']['dnsName'].rstrip('.'))
-        rows[Type].append(row)
     mdoc_add(mddoc, rows, header, Types)
 
-'''def artifactregistry_googleapis_com(resource_grouped,mddoc,asset_type):
+def artifactregistry_googleapis_com(resource_grouped,mddoc,asset_type):
+    
     mddoc.add_heading("ArtifactRegistry-GoogleApis")
-    all_resources(resource_grouped, mddoc)'''
+    mddoc.add_heading("ContainerRegistry-GoogleApis")
+
+    rows = {}
+    header = {}
+    Types = []
+
+    for resource in resource_grouped:
+        Type = str(resource['assetType']).split('/')[-1]
+        Types.append(Type)
+        rows.setdefault(Type, [])
+
+        header[Type] = ["Name", "Location"]
+        row = [resource['displayName'].rsplit('/', 1)[-1].split('@')[0], resource['location']]
+        rows[Type].append(row)
+    
+    mdoc_add(mddoc, rows, header, Types)
 
 '''def bigquery_googleapis_com(resource_grouped,mddoc,asset_type):
     mddoc.add_heading("Bigquery-GoogleApis")
@@ -72,7 +115,7 @@ def apps_k8s_io(resource_grouped,mddoc,asset_type):
         rows[Type].append(row)
     mdoc_add(mddoc, rows, header, Types)'''
 
-def cloudbilling_googleapis_com(resource_grouped,mddoc,asset_type):
+'''def cloudbilling_googleapis_com(resource_grouped,mddoc,asset_type):
     mddoc.add_heading("CloudBilling-GoogleApis")
     rows = {}
     header = {}
@@ -86,10 +129,15 @@ def cloudbilling_googleapis_com(resource_grouped,mddoc,asset_type):
         row = [resource['displayName'],  resource['location'],resource['state']]
         #print(resource['additionalAttributes']['dnsName'].rstrip('.'))
         rows[Type].append(row)
-    mdoc_add(mddoc, rows, header, Types)
+    mdoc_add(mddoc, rows, header, Types)'''
 
-def cloudfunctions_googleapis_com(resource_grouped,mddoc,asset_type):
+def cloudfunctions_googleapis_com(resource_grouped,mddoc):
+    
     mddoc.add_heading("CloudFunctions-GoogleApis")
+
+    project_id = 'mapfre-dig-esp--dat--pro--8620'
+    #project_id = "tecuidamos-esp-dat-pre--7838"
+    client = functions_v1.CloudFunctionsServiceClient()
     rows = {}
     header = {}
     Types = []
@@ -97,21 +145,23 @@ def cloudfunctions_googleapis_com(resource_grouped,mddoc,asset_type):
     for resource in resource_grouped:
         Type = str(resource['assetType']).split("/")[-1]
         Types.append(Type)
-        row = []
-        if Type not in header:
-            header[Type] = [] 
-            rows[Type] = []
-            header[Type]=["Name"]
-        row.append(resource['displayName'])
-        rows[Type].append(row)
-    
-    mdoc_add(mddoc, rows, header, Types)
+        rows.setdefault(Type, [])
+  
+        match Type:
+            case "CloudFunction":
+                client = functions_v1.CloudFunctionsServiceClient()
+                function_full_name = f"projects/{project_id}/locations/{resource['location']}/functions/{resource['displayName']}"
+                function = client.get_function(name=function_full_name)
+                print(function)
+                header[Type]=["Name", "Location", "State", "Runtime", "AvailableMemory", "Timeout", "ServiceAccount"]
+                row = [resource['displayName'], resource['location'], resource['state'], function.runtime, function.available_memory_mb, function.timeout, function.service_account_email]
+                rows[Type].append(row)
 
 '''def cloudresourcemanager_googleapis_com(resource_grouped,mddoc,asset_type):
     mddoc.add_heading("CloudResourceManager-GoogleApis")
     all_resources(resource_grouped, mddoc)'''
 
-def cloudtasks_googleapis_com(resource_grouped,mddoc,asset_type):
+'''def cloudtasks_googleapis_com(resource_grouped,mddoc,asset_type):
     mddoc.add_heading("CloudTasks-GoogleApis")
     rows = {}
     header = {}
@@ -125,7 +175,7 @@ def cloudtasks_googleapis_com(resource_grouped,mddoc,asset_type):
         row = [resource['displayName'], resource['location'],resource['state']]
         #print(resource['additionalAttributes']['dnsName'].rstrip('.'))
         rows[Type].append(row)
-    mdoc_add(mddoc, rows, header, Types)
+    mdoc_add(mddoc, rows, header, Types)'''
 
 def compute_googleapis_com(resource_grouped,mddoc,asset_type):
 
@@ -217,9 +267,25 @@ def container_googleapis_com(resource_grouped,mddoc,asset_type):
 
     mdoc_add(mddoc, rows, header, Types)
 
-'''def containerregistry_googleapis_com(resource_grouped,mddoc,asset_type):
+def containerregistry_googleapis_com(resource_grouped,mddoc,asset_type):
+    
     mddoc.add_heading("ContainerRegistry-GoogleApis")
-    all_resources(resource_grouped, mddoc)'''
+
+    rows = {}
+    header = {}
+    Types = []
+
+    for resource in resource_grouped:
+        Type = str(resource['assetType']).split('/')[-1]
+        Types.append(Type)
+        rows.setdefault(Type, [])
+
+        header[Type] = ["Name", "Location"]
+        row = ["/".join(resource['displayName'].split('/')[-2:]), resource['location']]
+        rows[Type].append(row)
+    
+    mdoc_add(mddoc, rows, header, Types)
+    
 
 def dataflow_googleapis_com(resource_grouped,mddoc,asset_type):
     mddoc.add_heading("DataFlow-GoogleApis")
@@ -234,9 +300,10 @@ def dataflow_googleapis_com(resource_grouped,mddoc,asset_type):
         if Type not in header:
             header[Type] = [] 
             rows[Type] = []
-            header[Type] = ["Name", "Estado", "Location"]
+            header[Type] = ["Name", "State", "Location"]
         row = [resource['displayName'], resource['state'].split('_')[-1], resource['location']]
-        if(resource['state']!='JOB_STATE_DRAINED'):
+        #if(resource['state']!='JOB_STATE_DRAINED'):
+        if(resource['state']=="JOB_STATE_RUNNING"):
             rows[Type].append(row)
 
     mdoc_add(mddoc, rows, header, Types)
@@ -275,7 +342,7 @@ def iam_googleapis_com(resource_grouped,mddoc,asset_type):
             row = [resource['displayName'].replace("|", "-"),resource['additionalAttributes']['email'], resource['state']]    
         else:
             header[Type] = ["Name"]
-            row = [resource['displayName']]
+            row = ["/".join(resource['displayName'].split('/')[-4:])]
         #print(resource['additionalAttributes']['includedPermissions'])
         rows[Type].append(row)
     mdoc_add(mddoc, rows, header, Types)
@@ -321,9 +388,23 @@ def monitoring_googleapis_com(resource_grouped,mddoc,asset_type):
     
     mdoc_add(mddoc, rows, header, Types)
 
-'''def pubsub_googleapis_com(resource_grouped,mddoc,asset_type):
+def pubsub_googleapis_com(resource_grouped,mddoc,asset_type):
     mddoc.add_heading("PubSub-GoogleApis")
-    all_resources(resource_grouped, mddoc)'''
+        
+    rows = {}
+    header = {}
+    Types = []
+    
+    for resource in resource_grouped:
+        Type = str(resource['assetType']).split("/")[-1]
+        Types.append(Type)
+        rows.setdefault(Type, []) # Inicializa una lista vacía si no existe para ese tipo
+
+        header[Type] = ["Name", "Location"]
+        row = [resource['displayName'].split('/')[-1], resource['location']]
+        rows[Type].append(row)
+
+    mdoc_add(mddoc, rows, header, Types)
 
 def rbac_authorization_k8s_io(resource_grouped,mddoc,asset_type):
     mddoc.add_heading("RbacAuthK8S-GoogleApis")
@@ -384,7 +465,7 @@ def secretmanager_googleapis_com(resource_grouped,mddoc,asset_type):
 
     mdoc_add(mddoc, rows, header, Types)
 
-def serviceusage_googleapis_com(resource_grouped,mddoc,asset_type):
+'''def serviceusage_googleapis_com(resource_grouped,mddoc,asset_type):
     mddoc.add_heading("ServiceUsage-GoogleApis")
     rows = {}
     header = {}
@@ -399,7 +480,7 @@ def serviceusage_googleapis_com(resource_grouped,mddoc,asset_type):
         row = [resource['displayName'], resource['location'], resource['state']]
 
         rows[Type].append(row)
-    mdoc_add(mddoc, rows, header, Types)
+    mdoc_add(mddoc, rows, header, Types)'''
     
 def sqladmin_googleapis_com(resource_grouped,mddoc,asset_type):
     mddoc.add_heading("SQL-Admin-GoogleApis")
@@ -413,12 +494,18 @@ def sqladmin_googleapis_com(resource_grouped,mddoc,asset_type):
         rows.setdefault(Type, []) # Inicializa una lista vacía si no existe para ese tipo
 
         header[Type] = ["Name", "Location", "State"]
-        row = ['/'.join(resource['name'].split('/')[3:]), resource['location'], resource['state']]
+        row = [resource['name'].split('/')[-1], resource['location'], resource['state']]
 
         rows[Type].append(row)
-    mdoc_add(mddoc, rows, header, Types)
+    Types = list(dict.fromkeys(Types))
+    for i in range(len(Types) - 1, -1, -1):
+        try:
+                mddoc.add_heading(Types[i], 2)
+                mddoc.add_table(header[Types[i]], rows[Types[i]], align=None)
+        except Exception as e:
+            print(e)
 
-def storage_googleapis_com(resource_grouped,mddoc,asset_type):
+'''def storage_googleapis_com(resource_grouped,mddoc,asset_type):
     mddoc.add_heading("Storage-GoogleApis")
     rows = {}
     header = {}
@@ -433,9 +520,9 @@ def storage_googleapis_com(resource_grouped,mddoc,asset_type):
         row = [resource['displayName'], resource['location']]
 
         rows[Type].append(row)
-    mdoc_add(mddoc, rows, header, Types)
+    mdoc_add(mddoc, rows, header, Types)'''
 
-def vpcaccess_googleapis_com(resource_grouped,mddoc,asset_type):
+'''def vpcaccess_googleapis_com(resource_grouped,mddoc,asset_type):
     mddoc.add_heading("VPC-Access-GoogleApis")
     rows = {}
     header = {}
@@ -450,14 +537,17 @@ def vpcaccess_googleapis_com(resource_grouped,mddoc,asset_type):
         row = [resource['displayName'], resource['location'], resource['state']]
 
         rows[Type].append(row)
-    mdoc_add(mddoc, rows, header, Types)
+    mdoc_add(mddoc, rows, header, Types)'''
 
 def mdoc_add(mddoc, rows, header, Types=None):
     Types = list(dict.fromkeys(Types))
     if(len(Types)!=1):
         for i in Types:
             try:
-                mddoc.add_heading(i, 2)
+                if(i=="Role"):
+                    mddoc.add_heading("CustomRoles", 2)
+                else:
+                    mddoc.add_heading(i, 2)
                 mddoc.add_table(header[i], rows[i], align=None)
             except Exception as e:
                 if(i=="Dataset"):

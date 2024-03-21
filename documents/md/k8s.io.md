@@ -375,7 +375,7 @@
 | twistlock-view-binding                               | europe-west1 |
 | uas-hpa-external-metrics-reader                      | europe-west1 |
 
-## Role
+## CustomRoles
 
 | Name                                           | Location     |
 | ---------------------------------------------- | ------------ |

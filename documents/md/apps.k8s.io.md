@@ -4,11 +4,6 @@
 
 | Name                                      | Location     | NameSpaces                          |
 | ----------------------------------------- | ------------ | ----------------------------------- |
-| event-exporter-gke                        | europe-west1 | kube-system                         |
-| kube-dns                                  | europe-west1 | kube-system                         |
-| kube-dns-autoscaler                       | europe-west1 | kube-system                         |
-| l7-default-backend                        | europe-west1 | kube-system                         |
-| metrics-server-v0.5.2                     | europe-west1 | kube-system                         |
 | mapfre-dig-esp--dat--pro--django-consumer | europe-west1 | mapfre-dig-esp--dat--event-sourcing |
 | mapfre-dig-esp--dat--pro--django-producer | europe-west1 | mapfre-dig-esp--dat--event-sourcing |
 | mapfre-dig-esp--dat--pro--nginx-proxy     | europe-west1 | mapfre-dig-esp--dat--event-sourcing |
@@ -17,29 +12,6 @@
 
 | Name                                                 | Location     | Labels                                                                                  | NameSpaces                          |
 | ---------------------------------------------------- | ------------ | --------------------------------------------------------------------------------------- | ----------------------------------- |
-| event-exporter-gke-5479fd58c8                        | europe-west1 | {'version': 'v0.3.5', 'k8s-app': 'event-exporter', 'pod-template-hash': '5479fd58c8'}   | kube-system                         |
-| event-exporter-gke-67986489c8                        | europe-west1 | {'version': 'v0.3.4', 'k8s-app': 'event-exporter', 'pod-template-hash': '67986489c8'}   | kube-system                         |
-| event-exporter-gke-f66d9f855                         | europe-west1 | {'version': 'v0.3.9', 'k8s-app': 'event-exporter', 'pod-template-hash': 'f66d9f855'}    | kube-system                         |
-| kube-dns-6554b8577f                                  | europe-west1 | {'k8s-app': 'kube-dns', 'pod-template-hash': '6554b8577f'}                              | kube-system                         |
-| kube-dns-697dc8fc8b                                  | europe-west1 | {'k8s-app': 'kube-dns', 'pod-template-hash': '697dc8fc8b'}                              | kube-system                         |
-| kube-dns-698cf6b7dc                                  | europe-west1 | {'k8s-app': 'kube-dns', 'pod-template-hash': '698cf6b7dc'}                              | kube-system                         |
-| kube-dns-6ffbbcc66d                                  | europe-west1 | {'k8s-app': 'kube-dns', 'pod-template-hash': '6ffbbcc66d'}                              | kube-system                         |
-| kube-dns-798f8cc6fb                                  | europe-west1 | {'k8s-app': 'kube-dns', 'pod-template-hash': '798f8cc6fb'}                              | kube-system                         |
-| kube-dns-85df8994db                                  | europe-west1 | {'k8s-app': 'kube-dns', 'pod-template-hash': '85df8994db'}                              | kube-system                         |
-| kube-dns-autoscaler-844c9d9448                       | europe-west1 | {'k8s-app': 'kube-dns-autoscaler', 'pod-template-hash': '844c9d9448'}                   | kube-system                         |
-| kube-dns-autoscaler-f4d55555                         | europe-west1 | {'k8s-app': 'kube-dns-autoscaler', 'pod-template-hash': 'f4d55555'}                     | kube-system                         |
-| kube-dns-autoscaler-fbc66b884                        | europe-west1 | {'k8s-app': 'kube-dns-autoscaler', 'pod-template-hash': 'fbc66b884'}                    | kube-system                         |
-| kube-dns-b99c7865d                                   | europe-west1 | {'k8s-app': 'kube-dns', 'pod-template-hash': 'b99c7865d'}                               | kube-system                         |
-| l7-default-backend-5465dfc4ff                        | europe-west1 | {'k8s-app': 'glbc', 'pod-template-hash': '5465dfc4ff', 'name': 'glbc'}                  | kube-system                         |
-| l7-default-backend-56cb9644f6                        | europe-west1 | {'k8s-app': 'glbc', 'pod-template-hash': '56cb9644f6', 'name': 'glbc'}                  | kube-system                         |
-| l7-default-backend-58fd4695c8                        | europe-west1 | {'k8s-app': 'glbc', 'pod-template-hash': '58fd4695c8', 'name': 'glbc'}                  | kube-system                         |
-| l7-default-backend-69fb9fd9f9                        | europe-west1 | {'k8s-app': 'glbc', 'pod-template-hash': '69fb9fd9f9', 'name': 'glbc'}                  | kube-system                         |
-| l7-default-backend-6b99559c7d                        | europe-west1 | {'k8s-app': 'glbc', 'pod-template-hash': '6b99559c7d', 'name': 'glbc'}                  | kube-system                         |
-| l7-default-backend-6dc845c45d                        | europe-west1 | {'k8s-app': 'glbc', 'pod-template-hash': '6dc845c45d', 'name': 'glbc'}                  | kube-system                         |
-| l7-default-backend-7dc577646d                        | europe-west1 | {'k8s-app': 'glbc', 'pod-template-hash': '7dc577646d', 'name': 'glbc'}                  | kube-system                         |
-| metrics-server-v0.5.2-6bf845b67f                     | europe-west1 | {'version': 'v0.5.2', 'k8s-app': 'metrics-server', 'pod-template-hash': '6bf845b67f'}   | kube-system                         |
-| metrics-server-v0.5.2-7945948f4b                     | europe-west1 | {'version': 'v0.5.2', 'k8s-app': 'metrics-server', 'pod-template-hash': '7945948f4b'}   | kube-system                         |
-| metrics-server-v0.5.2-866bc7fbf8                     | europe-west1 | {'version': 'v0.5.2', 'k8s-app': 'metrics-server', 'pod-template-hash': '866bc7fbf8'}   | kube-system                         |
 | mapfre-dig-esp--dat--pro--django-consumer-56f996b5bb | europe-west1 | {'app': 'mapfre-dig-esp--dat--pro--django-consumer', 'pod-template-hash': '56f996b5bb'} | mapfre-dig-esp--dat--event-sourcing |
 | mapfre-dig-esp--dat--pro--django-consumer-7bc9b7c674 | europe-west1 | {'app': 'mapfre-dig-esp--dat--pro--django-consumer', 'pod-template-hash': '7bc9b7c674'} | mapfre-dig-esp--dat--event-sourcing |
 | mapfre-dig-esp--dat--pro--django-producer-54755bfcbf | europe-west1 | {'app': 'mapfre-dig-esp--dat--pro--django-producer', 'pod-template-hash': '54755bfcbf'} | mapfre-dig-esp--dat--event-sourcing |

@@ -2,11 +2,16 @@ import snakemd
 import json
 import re
 import os
+from google.cloud import functions_v1
 
 
 
-def dataflow_googleapis_com(resource_grouped,mddoc,asset_type):
-    mddoc.add_heading("DataFlow-GoogleApis")
+def cloudfunctions_googleapis_com(resource_grouped,mddoc):
+    
+    mddoc.add_heading("CloudFunctions-GoogleApis")
+
+    project_id = 'mapfre-dig-esp--dat--pro--8620'
+    client = functions_v1.CloudFunctionsServiceClient()
     rows = {}
     header = {}
     Types = []
@@ -14,20 +19,21 @@ def dataflow_googleapis_com(resource_grouped,mddoc,asset_type):
     for resource in resource_grouped:
         Type = str(resource['assetType']).split("/")[-1]
         Types.append(Type)
-        row = []
-        if Type not in header:
-            header[Type] = [] 
-            rows[Type] = []
-            header[Type] = ["Name", "Estado", "Location"]
-        row = [resource['displayName'], resource['state'].split('_')[-1], resource['location']]
-        if(resource['state']!='JOB_STATE_DRAINED'):
-            rows[Type].append(row)
-    Types = list(dict.fromkeys(Types))
-    mddoc.add_heading(str(Types[0]), 2)
-    try:
-        mddoc.add_table(header[str(Types[0])], rows[str(Types[0])], align=None)
-    except Exception as e:
-        print(e)
+        rows.setdefault(Type, [])
+  
+        match Type:
+            case "CloudFunction":
+                client = functions_v1.CloudFunctionsServiceClient()
+                function_full_name = f"projects/{project_id}/locations/{resource['location']}/functions/{resource['displayName']}"
+                function = client.get_function(name=function_full_name)
+                print(function)
+                header[Type]=["Name", "Location", "State", "Runtime", "AvailableMemory", "Timeout", "ServiceAccount"]
+                row = [resource['displayName'], resource['location'], resource['state'], function.runtime, function.available_memory_mb, function.timeout, function.service_account_email]
+                rows[Type].append(row)
+        #function.runtime
+        
+    
+    mdoc_add(mddoc, rows, header, Types)
 
 def mdoc_add(mddoc, rows, header, Types=None):
     Types = list(dict.fromkeys(Types))
@@ -169,7 +175,7 @@ def apikeys_googleapis_com(resource_grouped,mddoc,asset_type):
 
 asset_types = []
 mddoc = snakemd.new_doc()
-f = open('/home/makingscience/Escritorio/notas/pruebas/test/mapfre-dig-pro.json')
+f = open('/home/makingscience/Escritorio/ms_assets_inventory/mdDocs/test/functions.json')
 dictResponse = json.load(f)
 f.close()
 
@@ -188,8 +194,9 @@ for asset_type in unique_asset_types_family:
             asset_type_replace = asset_type.replace(".","_")
             resource_grouped.append(resource)
     try:
-        exec(f"{asset_type_replace}(resource_grouped,mddoc,asset_type)")
-    except:
-        pass
+        if(asset_type=="cloudfunctions.googleapis.com"):
+            cloudfunctions_googleapis_com(resource_grouped,mddoc)
+    except Exception as e:
+        print("Error:", e, "     Coming Soon...")
 mddoc.dump("ALL")
 print("Exported MD documents")

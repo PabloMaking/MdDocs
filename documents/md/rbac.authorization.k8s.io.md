@@ -200,7 +200,7 @@
 | twistlock-view-binding                               | europe-west1 | Null                                                                                                                   |
 | uas-hpa-external-metrics-reader                      | europe-west1 | {'addonmanager.kubernetes.io/mode': 'Reconcile'}                                                                       |
 
-## Role
+## CustomRoles
 
 | Name                                           | Location     | Labels                                                                                                |
 | ---------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------- |

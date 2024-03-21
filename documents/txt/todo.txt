@@ -1,4 +1,0 @@
-
-Compute: name -> utilizar API (Obtener SO, disks, typemachine)
-Defaults: Elementos comunes (Display name y location)
-Skips: BackendBucket,Forwardin rule -> Default
