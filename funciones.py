@@ -1,11 +1,14 @@
 from google.cloud import compute_v1   # pip install --upgrade google-cloud-compute
 from google.cloud import functions_v1 # pip install google-cloud-functions
 import re
+import os
+import snakemd
+import sys
 
 def default_print(resource_grouped,mddoc,asset_type):
 
     headers = {
-        #"artifactregistry.googleapis.com": "ArtifactRegistry-GoogleApis",[]
+        #"artifactregistry.googleapis.com": "ArtifactRegistry-GoogleApis",
         "apikeys.googleapis.com": "ApiKeys-GoogleApis",
         "bigquery.googleapis.com": "Bigquery-GoogleApis",
         "cloudresourcemanager.googleapis.com": "CloudResourceManager-GoogleApis",
@@ -52,11 +55,11 @@ def default_print(resource_grouped,mddoc,asset_type):
 
     mdoc_add(mddoc, rows, header, Types)
 
-'''def apikeys_googleapis_com(resource_grouped,mddoc,asset_type):
+'''def apikeys_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("ApiKeys-GoogleApis")
 '''
 
-def apps_k8s_io(resource_grouped,mddoc,asset_type):
+def apps_k8s_io(resource_grouped,mddoc):
     mddoc.add_heading("AppsK8s-GoogleApis")
     rows = {}
     header = {}
@@ -79,7 +82,7 @@ def apps_k8s_io(resource_grouped,mddoc,asset_type):
         #print(resource['additionalAttributes']['dnsName'].rstrip('.'))
     mdoc_add(mddoc, rows, header, Types)
 
-def artifactregistry_googleapis_com(resource_grouped,mddoc,asset_type):
+def artifactregistry_googleapis_com(resource_grouped,mddoc):
     
     mddoc.add_heading("ArtifactRegistry-GoogleApis")
     mddoc.add_heading("ContainerRegistry-GoogleApis")
@@ -99,7 +102,7 @@ def artifactregistry_googleapis_com(resource_grouped,mddoc,asset_type):
     
     mdoc_add(mddoc, rows, header, Types)
 
-'''def bigquery_googleapis_com(resource_grouped,mddoc,asset_type):
+def bigquery_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("Bigquery-GoogleApis")
     rows = {}
     header = {}
@@ -109,13 +112,18 @@ def artifactregistry_googleapis_com(resource_grouped,mddoc,asset_type):
         Type = str(resource['assetType']).split("/")[-1]
         Types.append(Type)
         rows.setdefault(Type, [])
-        header[Type] = ["Name", "Location"]
-        row = [resource['displayName'],  resource['location']]
-        #print(resource['additionalAttributes']['dnsName'].rstrip('.'))
-        rows[Type].append(row)
-    mdoc_add(mddoc, rows, header, Types)'''
+        if(Type=='Table'):
+            header[Type] = ["Name", "Location"]
+            row = [resource['displayName'],  resource['location']]
+            if not (partition_date(row[0])):
+                rows[Type].append(row)
+        else:
+            header[Type] = ["Name", "Location"]
+            row = [resource['displayName'],  resource['location']]
+            rows[Type].append(row)
+    mdoc_add(mddoc, rows, header, Types)
 
-'''def cloudbilling_googleapis_com(resource_grouped,mddoc,asset_type):
+'''def cloudbilling_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("CloudBilling-GoogleApis")
     rows = {}
     header = {}
@@ -131,13 +139,13 @@ def artifactregistry_googleapis_com(resource_grouped,mddoc,asset_type):
         rows[Type].append(row)
     mdoc_add(mddoc, rows, header, Types)'''
 
-def cloudfunctions_googleapis_com(resource_grouped,mddoc):
+def cloudfunctions_googleapis_com(resource_grouped,mddoc,project_id):
     
     mddoc.add_heading("CloudFunctions-GoogleApis")
-
-    project_id = 'mapfre-dig-esp--dat--pro--8620'
+    #project_id = 'mapfre-dig-esp--dat--pro--8620'
     #project_id = "tecuidamos-esp-dat-pre--7838"
     client = functions_v1.CloudFunctionsServiceClient()
+
     rows = {}
     header = {}
     Types = []
@@ -149,19 +157,19 @@ def cloudfunctions_googleapis_com(resource_grouped,mddoc):
   
         match Type:
             case "CloudFunction":
-                client = functions_v1.CloudFunctionsServiceClient()
+
                 function_full_name = f"projects/{project_id}/locations/{resource['location']}/functions/{resource['displayName']}"
                 function = client.get_function(name=function_full_name)
-                print(function)
-                header[Type]=["Name", "Location", "State", "Runtime", "AvailableMemory", "Timeout", "ServiceAccount"]
+                header[Type]=["Name", "Location", "State", "Runtime", "AvailableMemory(MiB)", "Timeout", "ServiceAccount"]
                 row = [resource['displayName'], resource['location'], resource['state'], function.runtime, function.available_memory_mb, function.timeout, function.service_account_email]
                 rows[Type].append(row)
+    mdoc_add(mddoc, rows, header, Types)
 
-'''def cloudresourcemanager_googleapis_com(resource_grouped,mddoc,asset_type):
+'''def cloudresourcemanager_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("CloudResourceManager-GoogleApis")
     all_resources(resource_grouped, mddoc)'''
 
-'''def cloudtasks_googleapis_com(resource_grouped,mddoc,asset_type):
+'''def cloudtasks_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("CloudTasks-GoogleApis")
     rows = {}
     header = {}
@@ -177,7 +185,7 @@ def cloudfunctions_googleapis_com(resource_grouped,mddoc):
         rows[Type].append(row)
     mdoc_add(mddoc, rows, header, Types)'''
 
-def compute_googleapis_com(resource_grouped,mddoc,asset_type):
+def compute_googleapis_com(resource_grouped,mddoc,project_id):
 
     mddoc.add_heading("Compute-GoogleApis")
 
@@ -194,7 +202,7 @@ def compute_googleapis_com(resource_grouped,mddoc,asset_type):
         
         match Type:
             case "Address":
-                header[Type] = ["Name", "Location", "State", "Ip"]
+                header[Type] = ["Name", "Location", "State", "IP"]
                 ip = resource['additionalAttributes']['address']
                 row = [resource['displayName'], resource['location'], resource['state'], ip]
                 rows[Type].append(row)
@@ -205,10 +213,10 @@ def compute_googleapis_com(resource_grouped,mddoc,asset_type):
                 rows[Type].append(row)
 
             case "Instance":
-                header[Type] = ["Name", "id", "MachineType", "Location", "State", "Network-Name", "Subnetwork", "IP", "Network-Tier", "Network-Type"]
+                header[Type] = ["Name", "id", "MachineType", "Location", "State", "Network-Name", "Subnetwork", "IP-Interna", "Network-Tier", "Network-Type"]
                 #resource['additionalAttributes']['id'] "NetworkTags", "NetworkTier", "NetworkType", "SubNetwork", "IP"
 
-                instance_info = compute_client.get(project="mapfre-dig-esp--dat--pro--8620", zone=resource['location'], instance=str(resource['displayName']))
+                instance_info = compute_client.get(project=project_id, zone=resource['location'], instance=str(resource['displayName']))
                 machine_type = instance_info.machine_type.split("/")[-1]
                 status=instance_info.status
                 if(status=="TERMINATED"):
@@ -246,7 +254,7 @@ def compute_googleapis_com(resource_grouped,mddoc,asset_type):
     
     mdoc_add(mddoc, rows, header, Types)
 
-def container_googleapis_com(resource_grouped,mddoc,asset_type):
+def container_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("Container-GoogleApis")
     rows = {}
     header = {}
@@ -267,7 +275,7 @@ def container_googleapis_com(resource_grouped,mddoc,asset_type):
 
     mdoc_add(mddoc, rows, header, Types)
 
-def containerregistry_googleapis_com(resource_grouped,mddoc,asset_type):
+def containerregistry_googleapis_com(resource_grouped,mddoc):
     
     mddoc.add_heading("ContainerRegistry-GoogleApis")
 
@@ -287,7 +295,7 @@ def containerregistry_googleapis_com(resource_grouped,mddoc,asset_type):
     mdoc_add(mddoc, rows, header, Types)
     
 
-def dataflow_googleapis_com(resource_grouped,mddoc,asset_type):
+def dataflow_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("DataFlow-GoogleApis")
     rows = {}
     header = {}
@@ -308,7 +316,7 @@ def dataflow_googleapis_com(resource_grouped,mddoc,asset_type):
 
     mdoc_add(mddoc, rows, header, Types)
 
-def dns_googleapis_com(resource_grouped,mddoc,asset_type):
+def dns_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("DNS-GoogleApis")
     rows = {}
     header = {}
@@ -324,7 +332,7 @@ def dns_googleapis_com(resource_grouped,mddoc,asset_type):
         rows[Type].append(row)
     mdoc_add(mddoc, rows, header, Types)
 
-def iam_googleapis_com(resource_grouped,mddoc,asset_type):
+def iam_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("IAM-GoogleApis")
     rows = {}
     header = {}
@@ -347,7 +355,7 @@ def iam_googleapis_com(resource_grouped,mddoc,asset_type):
         rows[Type].append(row)
     mdoc_add(mddoc, rows, header, Types)
 
-def logging_googleapis_com(resource_grouped,mddoc,asset_type):
+def logging_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("Logging-GoogleApis")
     rows = {}
     header = {}
@@ -370,7 +378,7 @@ def logging_googleapis_com(resource_grouped,mddoc,asset_type):
         rows[Type].append(row)
     mdoc_add(mddoc, rows, header, Types)
 
-def monitoring_googleapis_com(resource_grouped,mddoc,asset_type):
+def monitoring_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("Monitoring-GoogleApis")
     rows = {}
     header = {}
@@ -388,7 +396,7 @@ def monitoring_googleapis_com(resource_grouped,mddoc,asset_type):
     
     mdoc_add(mddoc, rows, header, Types)
 
-def pubsub_googleapis_com(resource_grouped,mddoc,asset_type):
+def pubsub_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("PubSub-GoogleApis")
         
     rows = {}
@@ -406,7 +414,7 @@ def pubsub_googleapis_com(resource_grouped,mddoc,asset_type):
 
     mdoc_add(mddoc, rows, header, Types)
 
-def rbac_authorization_k8s_io(resource_grouped,mddoc,asset_type):
+def rbac_authorization_k8s_io(resource_grouped,mddoc):
     mddoc.add_heading("RbacAuthK8S-GoogleApis")
     rows = {}
     header = {}
@@ -426,7 +434,7 @@ def rbac_authorization_k8s_io(resource_grouped,mddoc,asset_type):
     
     mdoc_add(mddoc, rows, header, Types)
 
-def redis_googleapis_com(resource_grouped,mddoc,asset_type):
+def redis_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("Redis-GoogleApis")
     rows = {}
     header = {}
@@ -443,7 +451,7 @@ def redis_googleapis_com(resource_grouped,mddoc,asset_type):
         rows[Type].append(row)
     mdoc_add(mddoc, rows, header, Types)
     
-def secretmanager_googleapis_com(resource_grouped,mddoc,asset_type):
+def secretmanager_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("SecretManager-GoogleApis")
     rows = {}
     header = {}
@@ -465,7 +473,7 @@ def secretmanager_googleapis_com(resource_grouped,mddoc,asset_type):
 
     mdoc_add(mddoc, rows, header, Types)
 
-'''def serviceusage_googleapis_com(resource_grouped,mddoc,asset_type):
+'''def serviceusage_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("ServiceUsage-GoogleApis")
     rows = {}
     header = {}
@@ -482,7 +490,7 @@ def secretmanager_googleapis_com(resource_grouped,mddoc,asset_type):
         rows[Type].append(row)
     mdoc_add(mddoc, rows, header, Types)'''
     
-def sqladmin_googleapis_com(resource_grouped,mddoc,asset_type):
+def sqladmin_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("SQL-Admin-GoogleApis")
     rows = {}
     header = {}
@@ -505,7 +513,7 @@ def sqladmin_googleapis_com(resource_grouped,mddoc,asset_type):
         except Exception as e:
             print(e)
 
-'''def storage_googleapis_com(resource_grouped,mddoc,asset_type):
+'''def storage_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("Storage-GoogleApis")
     rows = {}
     header = {}
@@ -522,7 +530,7 @@ def sqladmin_googleapis_com(resource_grouped,mddoc,asset_type):
         rows[Type].append(row)
     mdoc_add(mddoc, rows, header, Types)'''
 
-'''def vpcaccess_googleapis_com(resource_grouped,mddoc,asset_type):
+'''def vpcaccess_googleapis_com(resource_grouped,mddoc):
     mddoc.add_heading("VPC-Access-GoogleApis")
     rows = {}
     header = {}
@@ -548,7 +556,8 @@ def mdoc_add(mddoc, rows, header, Types=None):
                     mddoc.add_heading("CustomRoles", 2)
                 else:
                     mddoc.add_heading(i, 2)
-                mddoc.add_table(header[i], rows[i], align=None)
+                align = [snakemd.Table.Align.CENTER] * len(header[str(Types[0])])
+                mddoc.add_table(header[i], rows[i], align=align)
             except Exception as e:
                 if(i=="Dataset"):
                         header[i].insert(4, "Description")
@@ -563,7 +572,10 @@ def mdoc_add(mddoc, rows, header, Types=None):
     else:
         mddoc.add_heading(str(Types[0]), 2)
         try:
-            mddoc.add_table(header[str(Types[0])], rows[str(Types[0])], align=None)
+            align = [snakemd.Table.Align.CENTER] * len(header[str(Types[0])])
+            print(header[str(Types[0])])
+            print(align)
+            mddoc.add_table(header[str(Types[0])], rows[str(Types[0])], align=align)
         except Exception as e:
             print(e)
 
@@ -579,3 +591,30 @@ def compute_interfaces(interfaces):
         else:
             diccionario[key] = value
     return diccionario
+
+def partition_date(element):
+    """
+    Función booleana que evalúa si un elemento cumple con el patrón "word_YYYYMMDD".
+    """
+    pattern = re.compile(r'\b\w+_\d{8}\b')
+    return bool(pattern.match(element))
+
+def make_dirs(project):
+    if not os.path.exists('documents'):
+        os.makedirs('documents')
+    if not os.path.exists('documents/' + project):
+        os.makedirs('documents/' + project)
+        #os.makedirs('documents/' + project + '/json')
+        os.makedirs('documents/' + project + '/md')
+
+def usage(include_first_line=True):
+    if include_first_line:
+        print("\nUsage:" + sys.argv[0] + "[OPTION]\n")
+    print("\t Options:")
+    print("\t\t document    --> Generate MD Documentation")
+    #print("\t\t spreadsheet --> Generate Spreadsheet asset inventory")
+    print("\t\t json        --> Print assets in JSON")
+    #print("\t\t file        --> Export to reports to files")
+    #print("\t\t summary     --> Print screen summary projects")
+    if not include_first_line:
+        print("\t\t exit        --> Export to reports to files")

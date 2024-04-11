@@ -8,7 +8,6 @@ from funciones import *
 asset_types = []
 mddoc = snakemd.new_doc()
 
-#Tkinter para selección de archivos json
 ruta = os.path.join('documents', 'json','mapfre-dig-pro.json')
 f = open(ruta)
 dictResponse = json.load(f)
@@ -41,7 +40,7 @@ for asset_type in unique_asset_types_family:
             resource_grouped.append(resource)
     try:
         mddoc = snakemd.new_doc()
-        exec(f"{asset_type_replace}(resource_grouped,mddoc,asset_type)")
+        exec(f"{asset_type_replace}(resource_grouped,mddoc)")
         mddoc.dump("./documents/" + name  + "/md/"+ asset_type)
     except:
         mddoc = snakemd.new_doc()
@@ -51,4 +50,3 @@ for asset_type in unique_asset_types_family:
         pass
 
 print("Exported MD documents")
-
